@@ -1,0 +1,31 @@
+.noteArea {
+    background-color: hsl(59, 92%, 61%); /*don't forgetti */
+    color: black;
+    outline: none;
+    border-style: none;
+    margin: 0px; 
+    resize: none;
+    height: 100%;
+}
+
+.noteNavBar {
+    display: flex;
+    justify-content: space-between;
+    background-color: hsl(54, 89%, 63%);
+    color: black;
+    width: 100%;
+}
+
+.stickyNoteContainer {
+    display: flex;
+    flex-direction: column;
+    height: 50px;
+    min-width: 100px;
+    min-height: 45px;
+    max-width: 300px; /* Adjust to your desired maximum size */
+    max-height: 300px; /* Adjust to your desired maximum size */
+    margin: 10px;
+    box-sizing: border-box;
+    resize: both; /* Allows the sticky note container to be resized manually */
+    overflow: hidden; /* Prevents overflow when resizing */
+}
