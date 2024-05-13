@@ -1,26 +1,41 @@
+// Import required modules
+const express = require("express");
+const {MongoClient} = require("mongodb")
+const dotenv = require("dotenv");
+dotenv.config();
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://martin:martin1@cluster0.jwrlo6w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+// Your MongoDB connection URI
+const uri = process.env.MONGO_URI;
+const client = new MongoClient(uri);
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-  serverApi: {
-    version: ServerApiVersion.v1,
-    strict: true,
-    deprecationErrors: true,
-  }
-});
+const app = express();
+const PORT = process.env.PORT || 3001;
 
+app.use(express.json()); // Middleware for parsing JSON bodies
+
+// Connect to MongoDB and start the server
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
+    // Connect to the MongoDB cluster
     await client.connect();
-    // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    console.log("Connected to MongoDB");
+
+    // Example route
+    app.get('/download/', (req, res) => {
+        res.send('Hello from the backend with MongoDB!');
+      });
+
+    // Listen to the server
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
+  } catch (e) {
+    console.error(e);
   } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+    // Optionally close the connection
+    // await client.close();
   }
 }
-run().catch(console.dir);
+
+run().catch(console.error);

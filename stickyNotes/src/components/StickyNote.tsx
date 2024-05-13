@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import "./StickyNote.css";
 
 type Note = {
@@ -38,6 +38,14 @@ const StickyNote = () => {
     setNotes([...notes, newNote]);
   };
 
+  // useEffect(() => {
+  //   const fetchNotes = async () => {
+  //     try {
+
+  //     }
+  //   }
+  // })
+
   return (
     <div>
       {notes.map((note) => (
@@ -60,6 +68,7 @@ const StickyNote = () => {
           </div>
         </form>
       ))}
+      {notes.length === 0 ? <button onClick={addNote}>Add note</button> : ""}
     </div>
   );
 };
