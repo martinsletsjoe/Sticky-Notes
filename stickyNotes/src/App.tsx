@@ -7,11 +7,8 @@ function App() {
   const [stickyNotes, setStickyNotes] = useState([0, 1, 2]);
 
   return (
-    <div className="appContainer">
-      {/* Use map to return and render an array of StickyNote components */}
-      {stickyNotes.map((noteId) => (
-        <StickyNote key={noteId} />
-      ))}
+    <div>
+      <StickyNote />
     </div>
   );
 }
