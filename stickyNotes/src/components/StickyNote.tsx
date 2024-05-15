@@ -1,4 +1,4 @@
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./StickyNote.css";
 
 type Note = {
@@ -6,15 +6,24 @@ type Note = {
   text: string;
 };
 
-const empty = {
-  id: Date.now(),
-  text: "str",
-};
-
 const StickyNote = () => {
-  // const [text, setText] = useState("");
+  const [notes, setNotes] = useState<Note[]>([]);
 
-  const [notes, setNotes] = useState<Note[]>([empty]);
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const response = await fetch("/api/notes");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        setNotes(data);
+      } catch (error) {
+        console.error("failed to fetch notes:", error);
+      }
+    };
+    fetchNotes();
+  }, []);
 
   const handleChange = (id: number, newText: string) => {
     // Update the text of the specific note
@@ -22,7 +31,6 @@ const StickyNote = () => {
       note.id === id ? { ...note, text: newText } : note
     );
     setNotes(updatedNotes);
-    console.log(notes[0].text);
   };
 
   const deleteNote = (id: number) => {
@@ -35,16 +43,8 @@ const StickyNote = () => {
       id: Date.now(),
       text: "",
     };
-    setNotes([...notes, newNote]);
+    setNotes((prevNotes) => [...prevNotes, newNote]);
   };
-
-  // useEffect(() => {
-  //   const fetchNotes = async () => {
-  //     try {
-
-  //     }
-  //   }
-  // })
 
   return (
     <div>

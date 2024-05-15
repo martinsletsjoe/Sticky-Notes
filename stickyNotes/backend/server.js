@@ -1,41 +1,61 @@
-// Import required modules
+const cors = require("cors");
 const express = require("express");
 const {MongoClient} = require("mongodb")
-const dotenv = require("dotenv");
-dotenv.config();
 
-// Your MongoDB connection URI
-const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri);
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const port = 3001;
+const url = "mongodb://localhost:27017/"
+const dbName = "StickyNotes";
 
-app.use(express.json()); // Middleware for parsing JSON bodies
+app.use(express.json());
+app.use(cors());
 
-// Connect to MongoDB and start the server
-async function run() {
-  try {
-    // Connect to the MongoDB cluster
-    await client.connect();
-    console.log("Connected to MongoDB");
+const client = new MongoClient(url);
 
-    // Example route
-    app.get('/download/', (req, res) => {
-        res.send('Hello from the backend with MongoDB!');
-      });
-
-    // Listen to the server
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
-
-  } catch (e) {
-    console.error(e);
-  } finally {
-    // Optionally close the connection
-    // await client.close();
-  }
+async function connectToMongo(){
+    try{
+        await client.connect();
+        console.log("jadda")
+    } catch (error) {
+        console.log("neida")
+    }
 }
 
-run().catch(console.error);
+app.post("/notes", async (req, res) => {
+    try {
+        const db = client.db(dbName);
+        const notesCollection = db.collection("notes");
+        const {text} = req.body;
+        const newNote = {
+            text: text,
+            createdAt: new Date()
+        };
+        const result = await notesCollection.insertOne(newNote);
+        res.status(201).json(result);
+    } catch (error) {
+        console.error("failed to create note", error);
+        res.status(500).json({message: "failed to create note"});
+    }
+})
+
+app.get("/notes", async (req, res) => {
+    try {
+        const db = client.db(dbName);
+        const notesCollection = db.collection("notes")
+        const notes = await notesCollection.find({}).toArray();
+        res.status(200).json(notes);
+    }catch (error) {
+        console.log("Failed to fetch notes", error);
+        res.status(500).json({message: "failed to fetch notes."})
+    }
+})
+
+app.get("/", (req, res) => {
+    res.send(`<h1>Server is running</h1>`)
+})
+
+app.listen(port, () => {
+    console.log(`server is running at http://localhost:${port}`)
+    connectToMongo();
+})
