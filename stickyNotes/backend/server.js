@@ -1,6 +1,6 @@
 const cors = require("cors");
 const express = require("express");
-const {MongoClient} = require("mongodb")
+const {MongoClient, ObjectId} = require("mongodb")
 
 
 const app = express();
@@ -50,6 +50,49 @@ app.get("/notes", async (req, res) => {
         res.status(500).json({message: "failed to fetch notes."})
     }
 })
+
+app.patch("/notes/:id", async (req, res) =>{
+    const {id} = req.params;
+    const {text} = req.body;
+
+    try {
+        const db = client.db("StickyNotes");
+        const notesCollection = db.collection("notes");
+        const result = await notesCollection.updateOne(
+            {_id: new ObjectId(id)},
+            {$set: {text: text}}
+        );
+
+        if(result.modifiedCount === 0) {
+            return res.status(404).json({message: "no notes found with that ID"});
+        }
+
+        res.json({message: "Note updated successfully"})
+    }catch (error) {
+        console.error("failed to update note", error);
+        res.status(500).json({message: "Failed to update note"});
+    }
+})
+
+app.delete('/notes/:id', async (req, res) => {
+    const { id } = req.params;
+    console.log("Attempting to delete note with ID:", id);  // Log the ID
+    try {
+        const db = client.db("StickyNotes");
+        const notesCollection = db.collection("notes");
+        const result = await notesCollection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 1) {
+            res.status(204).send();  // No Content, indicates successful deletion
+        } else {
+            res.status(404).json({ message: "Note not found" });
+        }
+    } catch (error) {
+        console.error("Failed to delete note:", error);
+        res.status(500).json({ message: "Failed to delete note" });
+    }
+});
+
 
 app.get("/", (req, res) => {
     res.send(`<h1>Server is running</h1>`)
