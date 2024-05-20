@@ -28,26 +28,28 @@ const Note = ({ note, onDelete, onUpdate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="stickyNoteContainer">
-        <div className="noteNavBar">
-          <button
-            style={{ background: "none", border: "none", color: "black" }}
-          >
-            +
-          </button>
-          <button type="button" onClick={handleDeleteClick}>
-            x
-          </button>
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="stickyNoteContainer">
+          <div className="noteNavBar">
+            <button
+              style={{ background: "none", border: "none", color: "black" }}
+            >
+              +
+            </button>
+            <button type="button" onClick={handleDeleteClick}>
+              x
+            </button>
+          </div>
+          <textarea
+            className="noteArea"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          ></textarea>
+          <small>{new Date(note.createdAt).toUTCString()}</small>
         </div>
-        <textarea
-          className="noteArea"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-        ></textarea>
-        <small>{new Date(note.createdAt).toUTCString()}</small>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

@@ -42,6 +42,15 @@ const StickyNote = () => {
     });
     setNotes(updateNotes);
   };
+  const addNote = async () => {
+    const newNote = {
+      text: "",
+      created: new Date(),
+    };
+    const response = await axios.post(`http://localhost:3001/notes/`, newNote);
+    setNotes((prevNotes) => [...prevNotes, response.data]);
+  };
+
   return (
     <div>
       {notes.map((note) => (
@@ -52,6 +61,7 @@ const StickyNote = () => {
           onUpdate={handleUpdate}
         />
       ))}
+      <button onClick={addNote}>add</button>
     </div>
   );
 };
