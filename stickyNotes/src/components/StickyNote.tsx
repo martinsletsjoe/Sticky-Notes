@@ -52,7 +52,7 @@ const StickyNote = () => {
   };
 
   return (
-    <div>
+    <div style={{ minHeight: "100%", width: "100vw" }}>
       {notes.map((note) => (
         <Note
           key={note._id}

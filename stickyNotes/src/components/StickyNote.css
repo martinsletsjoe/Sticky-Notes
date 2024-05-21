@@ -18,15 +18,22 @@
 
 .stickyNoteContainer {
     display: flex;
+    background-color: hsl(59, 92%, 61%); /*don't forgetti */
+    color: black;
+    text-align: right;
     flex-direction: column;
-    height: 50px;
+    height: 100px;
+    width: 150px;
     min-width: 100px;
-    min-height: 45px;
+    min-height: 80px;
     max-width: 300px; /* Adjust to your desired maximum size */
     max-height: 300px; /* Adjust to your desired maximum size */
     margin: 10px;
     box-sizing: border-box;
     resize: both; /* Allows the sticky note container to be resized manually */
     overflow: hidden; /* Prevents overflow when resizing */
+}
+small {
+    opacity: 0.5;
 }
 

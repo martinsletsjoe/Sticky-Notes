@@ -5,7 +5,7 @@ const Note = ({ note, onDelete, onUpdate }) => {
   const [text, setText] = useState(note.text);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    const trimmedValue = text.trim();
     try {
       const response = await axios.patch(
         `http://localhost:3001/notes/${note._id}`,
@@ -27,6 +27,13 @@ const Note = ({ note, onDelete, onUpdate }) => {
     onDelete(note._id);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSubmit(event);
+    }
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -42,11 +49,18 @@ const Note = ({ note, onDelete, onUpdate }) => {
             </button>
           </div>
           <textarea
+            onKeyDown={handleKeyDown}
             className="noteArea"
             value={text}
             onChange={(e) => setText(e.target.value)}
           ></textarea>
-          <small>{new Date(note.createdAt).toUTCString()}</small>
+          <small>
+            {new Date(note.createdAt).toLocaleDateString("no-NO", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </small>
         </div>
       </form>
     </div>
