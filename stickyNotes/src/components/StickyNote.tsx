@@ -45,23 +45,46 @@ const StickyNote = () => {
   const addNote = async () => {
     const newNote = {
       text: "",
-      created: new Date(),
+      createdAt: new Date(),
     };
-    const response = await axios.post(`http://localhost:3001/notes/`, newNote);
-    setNotes((prevNotes) => [...prevNotes, response.data]);
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/notes/`,
+        newNote
+      );
+      setNotes((prevNotes) => [...prevNotes, response.data]);
+    } catch (error) {
+      console.error("failed to add note: ", error);
+    }
   };
 
   return (
     <div style={{ minHeight: "100%", width: "100vw" }}>
       {notes.map((note) => (
-        <Note
-          key={note._id}
-          note={note}
-          onDelete={handleDelete}
-          onUpdate={handleUpdate}
-        />
+        <div className="stickyNoteContainer" key={note._id}>
+          <div className="noteNavBar">
+            <button
+              onClick={addNote}
+              style={{ background: "none", border: "none", color: "black" }}
+            >
+              +
+            </button>
+            <button type="button" onClick={() => handleDelete(note._id)}>
+              x
+            </button>
+          </div>
+
+          <Note note={note} onUpdate={handleUpdate} />
+          <small>
+            {new Date(note.createdAt).toLocaleDateString("no-NO", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </small>
+        </div>
       ))}
-      <button onClick={addNote}>add</button>
+      {notes.length === 0 ? <button onClick={addNote}>add</button> : ""}
     </div>
   );
 };

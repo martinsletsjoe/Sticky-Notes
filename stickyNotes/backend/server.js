@@ -32,6 +32,12 @@ app.post("/notes", async (req, res) => {
             createdAt: new Date()
         };
         const result = await notesCollection.insertOne(newNote);
+
+        if(result.acknowledged) {
+            res.status(201).json({id: result.insertedId, ...newNote})
+        }else{
+            res.status(400).json({message: "Note could not be added."})
+        }
         res.status(201).json(result);
     } catch (error) {
         console.error("failed to create note", error);
