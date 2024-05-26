@@ -38,7 +38,7 @@ app.post("/notes", async (req, res) => {
         }else{
             res.status(400).json({message: "Note could not be added."})
         }
-        res.status(201).json(result);
+        // res.status(201).json(result);
     } catch (error) {
         console.error("failed to create note", error);
         res.status(500).json({message: "failed to create note"});

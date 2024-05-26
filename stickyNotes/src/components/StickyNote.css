@@ -43,3 +43,9 @@ small {
     opacity: 0.5;
 }
 
+.noteButton {
+    background: none;
+    border: none;
+    color: black;
+}
+

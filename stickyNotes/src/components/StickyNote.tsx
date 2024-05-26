@@ -59,17 +59,18 @@ const StickyNote = () => {
   };
 
   return (
-    <div style={{ minHeight: "100%", width: "100vw" }}>
+    <div style={{ display: "flex", flexWrap: "wrap" }}>
       {notes.map((note) => (
         <div className="stickyNoteContainer" key={note._id}>
           <div className="noteNavBar">
-            <button
-              onClick={addNote}
-              style={{ background: "none", border: "none", color: "black" }}
-            >
+            <button onClick={addNote} className="noteButton">
               +
             </button>
-            <button type="button" onClick={() => handleDelete(note._id)}>
+            <button
+              className="noteButton"
+              type="button"
+              onClick={() => handleDelete(note._id)}
+            >
               x
             </button>
           </div>
