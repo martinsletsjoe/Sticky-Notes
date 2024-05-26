@@ -1,11 +1,18 @@
 .noteArea {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
     background-color: hsl(59, 92%, 61%); /*don't forgetti */
     color: black;
     outline: none;
     border-style: none;
     margin: 0px; 
+    padding: 0px;
     resize: none;
+    width: 100%;
     height: 100%;
+    box-sizing: border-box;
+
 }
 
 .noteNavBar {
@@ -20,9 +27,8 @@
     display: flex;
     background-color: hsl(59, 92%, 61%); /*don't forgetti */
     color: black;
-    text-align: right;
     flex-direction: column;
-    height: 100px;
+    height: 20vh;
     width: 150px;
     min-width: 100px;
     min-height: 80px;
