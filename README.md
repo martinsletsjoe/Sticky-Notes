@@ -1,6 +1,7 @@
 # Stickynotes
 
-![stickynote](https://github.com/martinsletsjoe/Sticky-Notes/assets/106916526/196bdf80-62c5-4a5f-8e8c-5adac1973b26)
+![image](https://github.com/martinsletsjoe/Sticky-Notes/assets/106916526/36ddf8c2-31ec-48f3-bd06-72e5d4f9154f)
+
 
 
 ## Description
