@@ -24,7 +24,7 @@ const StickyNote = () => {
     fetchNotes();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (id: number) => {
     try {
       await axios.delete(`http://localhost:3001/notes/${id}`);
       setNotes(notes.filter((note) => note._id !== id));
